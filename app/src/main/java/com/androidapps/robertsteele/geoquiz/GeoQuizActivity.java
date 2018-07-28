@@ -11,7 +11,6 @@ public class GeoQuizActivity extends AppCompatActivity {
 
     private Button mTrueButton;
     private Button mFalseButton;
-    private Button mNextButton;
     private TextView mQuestionTextView;
 
     private Question[] mQuestions = new Question[] {
@@ -27,6 +26,7 @@ public class GeoQuizActivity extends AppCompatActivity {
 
 
     private void updateQuestion() {
+        mQuestionIndex = (mQuestionIndex + 1) % mQuestions.length;
         mQuestionTextView.setText(mQuestions[mQuestionIndex].getMtextResId());
     }
 
@@ -48,7 +48,6 @@ public class GeoQuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_geo_quiz);
         mTrueButton = (Button) findViewById(R.id.true_button);
         mFalseButton = (Button) findViewById(R.id.false_buttton);
-        mNextButton = (Button) findViewById(R.id.next_button);
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         updateQuestion();
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -65,16 +64,13 @@ public class GeoQuizActivity extends AppCompatActivity {
                 checkAnswer(false);
             }
         });
-
-        mNextButton.setOnClickListener(new View.OnClickListener() {
+        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mQuestionIndex = (mQuestionIndex + 1) % mQuestions.length;
+                mQuestionTextView.setText(mQuestions[mQuestionIndex].getMtextResId());
                 updateQuestion();
             }
         });
-
-
     }
 }
 
