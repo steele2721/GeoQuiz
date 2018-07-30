@@ -17,12 +17,12 @@ public class GeoQuizActivity extends AppCompatActivity {
     private static final String KEY_INDEX = "index";
 
     private Question[] mQuestions = new Question[]{
-            new Question(R.string.question_australia, true),
-            new Question(R.string.question_oceans, true),
-            new Question(R.string.question_mideast, false),
-            new Question(R.string.question_africa, false),
-            new Question(R.string.question_americas, true),
-            new Question(R.string.question_asia, true),
+            new Question(R.string.question_australia, true, false),
+            new Question(R.string.question_oceans, true, false),
+            new Question(R.string.question_mideast, false, false),
+            new Question(R.string.question_africa, false, false),
+            new Question(R.string.question_americas, true, false),
+            new Question(R.string.question_asia, true, false),
     };
 
     private int mQuestionIndex = 0;
@@ -55,9 +55,9 @@ public class GeoQuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "The OnCreate callback function!");
         setContentView(R.layout.activity_geo_quiz);
-       if (savedInstanceState != null) {
-           savedInstanceState.getInt(KEY_INDEX,0);
-       }
+        if (savedInstanceState != null) {
+            savedInstanceState.getInt(KEY_INDEX, 0);
+        }
         mTrueButton = (Button) findViewById(R.id.true_button);
         mFalseButton = (Button) findViewById(R.id.false_buttton);
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -65,7 +65,10 @@ public class GeoQuizActivity extends AppCompatActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkAnswer(true);
+                if (!mQuestions[mQuestionIndex].ismHasBeenAnswered()) {
+                    checkAnswer(true);
+                    mQuestions[mQuestionIndex].setmHasBeenAnswered(true);
+                }
 
             }
         });
@@ -73,9 +76,13 @@ public class GeoQuizActivity extends AppCompatActivity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkAnswer(false);
+                if (!mQuestions[mQuestionIndex].ismHasBeenAnswered()) {
+                    checkAnswer(false);
+                    mQuestions[mQuestionIndex].setmHasBeenAnswered(true);
+                }
             }
         });
+
         mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +120,7 @@ public class GeoQuizActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(TAG, "onDestroy() called");
     }
+
 
 }
 
